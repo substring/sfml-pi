@@ -51,9 +51,11 @@ public:
     ////////////////////////////////////////////////////////////
     // Member data
     ////////////////////////////////////////////////////////////
-    float     advance;     ///< Offset to move horizontally to the next character
-    FloatRect bounds;      ///< Bounding rectangle of the glyph, in coordinates relative to the baseline
-    IntRect   textureRect; ///< Texture coordinates of the glyph inside the font's texture
+    float     advance;     //!< Offset to move horizontally to the next character
+    int       lsb_delta;   //!< Left offset after forced autohint. Internally used by getKerning()
+    int       rsb_delta;   //!< Right offset after forced autohint. Internally used by getKerning()
+    FloatRect bounds;      //!< Bounding rectangle of the glyph, in coordinates relative to the baseline
+    IntRect   textureRect; //!< Texture coordinates of the glyph inside the font's texture
 };
 
 } // namespace sf
