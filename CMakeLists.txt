@@ -217,6 +217,15 @@ endif()
 #check if we are building for DRM
 if(SFML_DRM)
     add_definitions(-DSFML_DRM)
+find_path(LIBGBM_INCLUDE_DIRS
+    NAMES gbm.h
+    HINTS ${PC_LIBGBM_INCLUDE_DIRS} ${PC_LIBGBM_INCUDEDIR}
+)
+
+find_library(LIBGBM_LIBRARIES
+    NAMES gbm
+    HINTS ${PC_LIBGBM_LIBRARY_DIRS} ${PC_LIBGBM_LIBDIR}
+)
 endif()
 
 # define SFML_OPENGL_ES if needed
