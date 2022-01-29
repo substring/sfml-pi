@@ -151,10 +151,27 @@ static uint32_t find_crtc_for_connector(const struct drm *drm, const drmModeRes 
 
 static int get_resources(int fd, drmModeRes **resources)
 {
+	drmModeConnector *conn;
+	unsigned int i;
+	int ret = -1;
 	*resources = drmModeGetResources(fd);
 	if (*resources == NULL)
 		return -1;
-	return 0;
+	for (i = 0; i < (*resources)->count_connectors; ++i) {
+		/* get information for each connector */
+		conn = drmModeGetConnector(fd, (*resources)->connectors[i]);
+		if (!conn) {
+			drmModeFreeConnector(conn);
+			continue;
+		}
+		if (conn->connection == DRM_MODE_CONNECTED) {
+			ret = 0;
+			break;
+		}
+		drmModeFreeConnector(conn);
+	}
+	drmModeFreeConnector(conn);
+	return ret;
 }
 
 #define MAX_DRM_DEVICES 64
